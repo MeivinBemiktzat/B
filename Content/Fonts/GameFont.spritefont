@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Graphics="Microsoft.Xna.Framework.Content.Pipeline.Graphics">
+  <Asset Type="Graphics:FontDescription">
+
+    <!-- Arial supports Hebrew glyphs on Windows build agents -->
+    <FontName>Arial</FontName>
+
+    <Size>22</Size>
+    <Spacing>0</Spacing>
+    <UseKerning>true</UseKerning>
+    <Style>Regular</Style>
+
+    <CharacterRegions>
+      <!-- Basic Latin (numbers, punctuation, fallback) -->
+      <CharacterRegion>
+        <Start>&#32;</Start>
+        <End>&#126;</End>
+      </CharacterRegion>
+      <!-- Hebrew Unicode block -->
+      <CharacterRegion>
+        <Start>&#1424;</Start>
+        <End>&#1535;</End>
+      </CharacterRegion>
+    </CharacterRegions>
+  </Asset>
+</XnaContent>
