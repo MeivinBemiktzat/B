@@ -13,10 +13,19 @@
     <!-- Windows-only build -->
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <SelfContained>true</SelfContained>
-    <PublishSingleFile>true</PublishSingleFile>
-    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <PublishReadyToRun>false</PublishReadyToRun>
-    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+
+    <!--
+      NOTE: PublishSingleFile is intentionally NOT used here.
+      MonoGame.Framework.DesktopGL depends on native libraries (SDL2.dll,
+      soft_oal.dll, etc.) that must sit as real files next to the .exe at
+      startup. Single-file self-extraction is unreliable for these native
+      dependencies in practice (causes "Failed to load library: SDL2.dll"
+      crashes on some machines). Publishing as a self-contained folder
+      keeps every native DLL alongside the exe and is 100% portable: no
+      installer, no .NET Runtime required on the target machine - just
+      copy the folder and run EscapeSpaceStation.exe.
+    -->
 
     <!-- MonoGame content pipeline needs this -->
     <MonoGameContentBuilderExe>mgcb</MonoGameContentBuilderExe>
