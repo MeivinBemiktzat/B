@@ -21,11 +21,17 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: Install MonoGame Content Builder tool
-        run: dotnet tool install --global dotnet-mgcb --version 3.8.1.303
+      - name: Create local tool manifest
+        run: dotnet new tool-manifest --force
+
+      - name: Install MonoGame Content Builder tool (local)
+        run: dotnet tool install dotnet-mgcb --version 3.8.1.303
 
       - name: Restore dependencies
         run: dotnet restore EscapeSpaceStation.csproj
+
+      - name: Restore local tools
+        run: dotnet tool restore
 
       - name: Publish portable Windows executable
         run: >
