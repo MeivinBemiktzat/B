@@ -33,20 +33,18 @@ jobs:
       - name: Restore local tools
         run: dotnet tool restore
 
-      - name: Publish portable Windows executable
+      - name: Publish portable Windows build
         run: >
           dotnet publish EscapeSpaceStation.csproj
           -c Release
           -r win-x64
           --self-contained true
-          -p:PublishSingleFile=true
-          -p:IncludeNativeLibrariesForSelfExtract=true
           -o publish_output
 
-      - name: Rename output to app.exe
+      - name: Package portable folder as app.zip
         shell: pwsh
         run: |
-          Copy-Item -Path "publish_output/EscapeSpaceStation.exe" -Destination "publish_output/app.exe"
+          Compress-Archive -Path "publish_output/*" -DestinationPath "app.zip" -Force
 
       - name: Determine release tag
         id: tag
@@ -55,12 +53,12 @@ jobs:
           $tag = "build-$(Get-Date -Format yyyyMMdd-HHmmss)-$($env:GITHUB_SHA.Substring(0,7))"
           echo "tag=$tag" >> $env:GITHUB_OUTPUT
 
-      - name: Create GitHub Release with app.exe
+      - name: Create GitHub Release with app.zip
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.tag.outputs.tag }}
           name: "Escape Space Station - ${{ steps.tag.outputs.tag }}"
-          files: publish_output/app.exe
+          files: app.zip
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
